@@ -63,8 +63,31 @@ def build_suffix_tree(text):
     return nodes
 
 def search_tree(suffix_tree, P):
-    # Your code here
-    return None
+    nodes = suffix_tree
+    n = 0
+    overlap = 0
+    i = 0
+    
+    while i < len(P):
+        x = P[i]
+
+        # checks if char is child of split node (suffix exists)
+        if x not in nodes[n][1]:
+            # mismatch found
+            break
+
+        n = nodes[n][1][x]  # n is now index of new node with label x and all possible suffixes from that prefix as children
+        prefix = nodes[n][0]   # prefix of node
+        
+        j = 0
+
+        while j < len(prefix) and i < len(P) and P[i] == prefix[j]:
+            # checks overlap with prefix and breaks when mismatch or when end of prefix
+            i += 1
+            j += 1
+            overlap += 1
+        
+    return overlap
 
 def main():
     args = get_args()

@@ -20,12 +20,31 @@ def get_args():
     return parser.parse_args()
 
 def build_suffix_trie(s):
-    # YOUR CODE HERE
-    return None
+    root = {'children': {}}
+
+    for i in range(len(s)):
+        curr = root
+        suffix = s[i:]
+
+        for char in suffix:
+            if char not in curr['children']:
+                curr['children'][char] = {'children': {}}
+            curr = curr['children'][char]
+
+    return root
 
 def search_trie(trie, pattern):
-    # YOUR CODE HERE
-    return None
+    curr = trie
+    overlap = 0
+
+    for char in pattern:
+        if char in curr['children']:
+            overlap += 1
+            curr = curr['children'][char]
+        else:
+            break
+    
+    return overlap
 
 def main():
     args = get_args()
